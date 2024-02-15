@@ -1,5 +1,9 @@
 export const signup = (req,res)=>{
-    console.log("signupUser");
+   try {
+    const {fullName, username, email, password, confirmPassword, gender,phoneNumber, image} = req.body;
+   } catch (error) {
+
+   }
 }
 export const login = (req,res)=>{
     console.log("login");
