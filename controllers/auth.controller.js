@@ -53,8 +53,15 @@ export const signup = async (req,res)=>{
     console.log("Error in signup controller", error.message);
    }
 }
-export const login = (req,res)=>{
-    console.log("login");
+export const login = async (req,res)=>{
+ try {
+    const {username, password}= req.body;
+    const user = await User.findOne( {username} );
+    const isPasswordCorrect= await bcrypt.compare(password, user?.password || "")
+ } catch (error) {
+console.log("Error in login controller", error.message);
+res.status(500).json({error: 'Server Error'})
+ }
 }
 export const logout = (req,res)=>{
     console.log("logout");
