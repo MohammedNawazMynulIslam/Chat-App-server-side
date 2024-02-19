@@ -58,11 +58,27 @@ export const login = async (req,res)=>{
     const {username, password}= req.body;
     const user = await User.findOne( {username} );
     const isPasswordCorrect= await bcrypt.compare(password, user?.password || "")
+
+    if(!user || !isPasswordCorrect){
+        return res.status(400).json({error: "Invalid creading"})
+    }
+    generateTokenAndSetCookie(user._id, res);
+    res.status(200).json({
+        _id: user_id,
+        fullName: user.fullName,
+        username: user.username,
+        profilePic: user.profilePic
+    });
  } catch (error) {
 console.log("Error in login controller", error.message);
 res.status(500).json({error: 'Server Error'})
  }
 }
 export const logout = (req,res)=>{
-    console.log("logout");
+   try {
+     console.log("logout");
+   } catch (error) {
+    console.log("Error in login controller", error.message);
+    res.status(500).json({error: 'Server Error'})
+   }
 }
